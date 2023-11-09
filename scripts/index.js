@@ -25,7 +25,6 @@ function cardDelete(evt) {
 }
 
 // @todo: Вывести карточки на страницу
-
 initialCards.forEach((card) => {
   renderCard(card, cardDelete);
 });
