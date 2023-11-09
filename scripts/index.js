@@ -20,6 +20,9 @@ function renderCard(card, cardDelete) {
 }
 
 // @todo: Функция удаления карточки
+function cardDelete(evt) {
+  evt.target.closest('.card').remove();
+}
 
 // @todo: Вывести карточки на страницу
 
