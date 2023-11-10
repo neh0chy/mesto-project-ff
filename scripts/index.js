@@ -5,7 +5,7 @@ const cardTemplate = document.querySelector('#card-template').content;
 const cardContainer = document.querySelector('.places__list');
 
 // @todo: Функция создания карточки
-function createCard(card, deleteCard) {
+function createCard(card, deleteCallBack) {
   const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
   const deleteButton = cardElement.querySelector('.card__delete-button');
 
@@ -14,7 +14,7 @@ function createCard(card, deleteCard) {
   cardElement.querySelector('.card__title').textContent = card.name;
 
   deleteButton.addEventListener('click', (evt) => {
-    deleteCard(evt);
+    deleteCallBack(evt);
   });
 
   return cardElement;
