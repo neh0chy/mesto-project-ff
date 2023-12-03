@@ -1,3 +1,6 @@
+import './styles/index.css';
+import { initialCards } from './modules/cards';
+
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -19,6 +22,10 @@ function createCard(card, deleteCallBack) {
 
   return cardElement;
 }
+
+function openPopup() {}
+
+function closePopup() {}
 
 function renderCard(card, container) {
   container.append(card);
