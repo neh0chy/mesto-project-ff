@@ -1,29 +1,41 @@
-const cardTemplate = document.querySelector('#card-template').content;
+import { cardTemplate, modalImage, modalImageImage, modalImageTitle } from './constants';
+import { openModal } from './modal';
 
 // Функция создания карточки
-function createCard(card, deleteCallBack) {
+export function createCard(card, deleteCallBack) {
   const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
   const deleteButton = cardElement.querySelector('.card__delete-button');
+  const cardLink = cardElement.querySelector('.card__image');
+  const cardImage = cardElement.querySelector('.card__image');
+  const cardTitle = cardElement.querySelector('.card__title');
 
-  cardElement.querySelector('.card__image').src = card.link;
-  cardElement.querySelector('.card__image').alt = card.name;
-  cardElement.querySelector('.card__title').textContent = card.name;
+  cardLink.src = card.link;
+  cardImage.alt = card.name;
+  cardTitle.textContent = card.name;
 
-  deleteButton.addEventListener('click', (evt) => {
-    deleteCallBack(evt);
+  cardImage.addEventListener('click', () => {
+    loadModalImageInfo(card.link, card.name);
+    openModal(modalImage);
   });
+
+  deleteButton.addEventListener('click', deleteCallBack);
 
   return cardElement;
 }
 
+// Функция наполнения тимплейта данными об открываемой карточке
+function loadModalImageInfo(cardLink, cardName) {
+  modalImageTitle.textContent = cardName;
+  modalImageImage.src = cardLink;
+  modalImageImage.alt = cardName;
+}
+
 // Функция добавления карточки
-function renderCard(card, container) {
+export function renderCard(card, container) {
   container.append(card);
 }
 
 // Функция удаления карточки
-function deleteCard(evt) {
+export function deleteCard(evt) {
   evt.target.closest('.card').remove();
 }
-
-export { createCard, renderCard, deleteCard };
