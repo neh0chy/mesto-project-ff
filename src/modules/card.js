@@ -26,6 +26,7 @@ export function renderCard(card, container) {
   container.append(card);
 }
 
+// Функция добавления новой карточки пользователем
 export function renderNewCard(card, container) {
   container.prepend(card);
 }
