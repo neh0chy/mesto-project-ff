@@ -16,7 +16,6 @@ export function createCard(card, deleteCallBack, likeCallBack, imageCallBack) {
   cardTitle.textContent = card.name;
 
   cardImage.addEventListener('click', imageCallBack);
-
   cardLike.addEventListener('click', likeCallBack);
   deleteButton.addEventListener('click', deleteCallBack);
   return cardElement;
