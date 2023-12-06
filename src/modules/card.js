@@ -1,13 +1,7 @@
-import {
-  cardTemplate,
-  modalImage,
-  modalImageImage,
-  modalImageTitle
-} from './constants';
-import { openModal } from './modal';
+import { cardTemplate } from './constants';
 
 // Функция создания карточки
-export function createCard(card, deleteCallBack) {
+export function createCard(card, deleteCallBack, likeCallBack, imageCallBack) {
   const cardElement = cardTemplate
     .querySelector('.places__item')
     .cloneNode(true);
@@ -15,26 +9,17 @@ export function createCard(card, deleteCallBack) {
   const cardLink = cardElement.querySelector('.card__image');
   const cardImage = cardElement.querySelector('.card__image');
   const cardTitle = cardElement.querySelector('.card__title');
+  const cardLike = cardElement.querySelector('.card__like-button');
 
   cardLink.src = card.link;
   cardImage.alt = card.name;
   cardTitle.textContent = card.name;
 
-  cardImage.addEventListener('click', () => {
-    loadModalImageInfo(card.link, card.name);
-    openModal(modalImage);
-  });
+  cardImage.addEventListener('click', imageCallBack);
 
+  cardLike.addEventListener('click', likeCallBack);
   deleteButton.addEventListener('click', deleteCallBack);
-
   return cardElement;
-}
-
-// Функция наполнения тимплейта данными об открываемой карточке
-function loadModalImageInfo(cardLink, cardName) {
-  modalImageTitle.textContent = cardName;
-  modalImageImage.src = cardLink;
-  modalImageImage.alt = cardName;
 }
 
 // Функция добавления карточки
@@ -49,4 +34,11 @@ export function renderNewCard(card, container) {
 // Функция удаления карточки
 export function deleteCard(evt) {
   evt.target.closest('.card').remove();
+}
+
+// Функция обработки лайка
+export function setLike(evt) {
+  if (evt.target.classList.contains('card__like-button')) {
+    evt.target.classList.toggle('card__like-button_is-active');
+  }
 }
