@@ -1,9 +1,16 @@
-import { cardTemplate, modalImage, modalImageImage, modalImageTitle } from './constants';
+import {
+  cardTemplate,
+  modalImage,
+  modalImageImage,
+  modalImageTitle
+} from './constants';
 import { openModal } from './modal';
 
 // Функция создания карточки
 export function createCard(card, deleteCallBack) {
-  const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
+  const cardElement = cardTemplate
+    .querySelector('.places__item')
+    .cloneNode(true);
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const cardLink = cardElement.querySelector('.card__image');
   const cardImage = cardElement.querySelector('.card__image');
@@ -33,6 +40,10 @@ function loadModalImageInfo(cardLink, cardName) {
 // Функция добавления карточки
 export function renderCard(card, container) {
   container.append(card);
+}
+
+export function renderNewCard(card, container) {
+  container.prepend(card);
 }
 
 // Функция удаления карточки

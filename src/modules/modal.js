@@ -1,4 +1,4 @@
-export function openModal(modal) {
+export function openModal(modal, form) {
   modal.classList.add('popup_is-opened');
   document.addEventListener('click', closeModalButton);
   document.addEventListener('click', closeModalOverlay);
