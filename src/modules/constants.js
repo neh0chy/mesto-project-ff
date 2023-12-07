@@ -2,14 +2,17 @@
 export const cardTemplate = document.querySelector('#card-template').content;
 export const cardContainer = document.querySelector('.places__list');
 
-// Шаблоны модалок профиля и добавления карточки
+// Шаблоны модалок профиля и добавления карточки и их кнопки закрытия
 export const modalEditProfile = document.querySelector('.popup_type_edit');
+export const modalEditProfileClose = modalEditProfile.querySelector('.popup__close');
 export const modalAddPlace = document.querySelector('.popup_type_new-card');
+export const modalAddPlaceClose = modalAddPlace.querySelector('.popup__close');
 
-// Шаблон изображения с полями
+// Шаблон изображения с полями и кнопка закрытия
 export const modalImage = document.querySelector('.popup_type_image');
 export const modalImageTitle = modalImage.querySelector('.popup__caption');
 export const modalImageImage = modalImage.querySelector('.popup__image');
+export const modalImageClose = modalImage.querySelector('.popup__close');
 
 // Кнопки
 export const profileEditBtn = document.querySelector('.profile__edit-button');

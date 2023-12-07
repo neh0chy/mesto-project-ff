@@ -15,7 +15,9 @@ export function createCard(card, deleteCallBack, likeCallBack, imageCallBack) {
   cardImage.alt = card.name;
   cardTitle.textContent = card.name;
 
-  cardImage.addEventListener('click', imageCallBack);
+  cardImage.addEventListener('click', () =>
+    imageCallBack(cardImage, cardTitle)
+  );
   cardLike.addEventListener('click', likeCallBack);
   deleteButton.addEventListener('click', deleteCallBack);
   return cardElement;
@@ -24,16 +26,6 @@ export function createCard(card, deleteCallBack, likeCallBack, imageCallBack) {
 // Функция добавления карточки
 export function renderCard(card, container) {
   container.append(card);
-}
-
-// Функция добавления новой карточки пользователем
-export function renderNewCard(card, container) {
-  container.prepend(card);
-}
-
-// Функция удаления карточки
-export function deleteCard(evt) {
-  evt.target.closest('.card').remove();
 }
 
 // Функция обработки лайка

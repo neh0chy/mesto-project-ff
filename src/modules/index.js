@@ -1,4 +1,4 @@
-import './styles/index.css';
+import '../styles/index.css';
 import {
   cardContainer,
   modalEditProfile,
@@ -11,16 +11,11 @@ import {
   jobInput,
   titleInput,
   linkInput
-} from './modules/constants';
-import { initialCards } from './modules/cards';
-import {
-  createCard,
-  renderCard,
-  deleteCard,
-  renderNewCard,
-  setLike
-} from './modules/card';
-import { openModal, openModalImage, closeModal } from './modules/modal';
+} from './constants';
+import { modalImage, modalImageTitle, modalImageImage } from './constants';
+import { initialCards } from './cards';
+import { createCard, renderCard, setLike } from './card';
+import { openModal, closeModal } from './modal';
 
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
@@ -31,11 +26,45 @@ initialCards.forEach((card) => {
   renderCard(newCard, cardContainer);
 });
 
+// Функция добавления новой карточки пользователем
+function renderNewCard(card, container) {
+  container.prepend(card);
+}
+
+// Функция удаления карточки
+function deleteCard(evt) {
+  evt.target.closest('.card').remove();
+}
+
+// Функция открытия изображения
+export function openModalImage(image, title) {
+  modalImageTitle.textContent = title.textContent;
+  modalImageImage.src = image.src;
+  modalImageImage.alt = image.alt;
+  openModal(modalImage);
+}
+
+// Обработчик закрытия по крестику и оверлею
+function handleCloseClick(evt) {
+  const modal = evt.target.closest('.popup');
+  if (evt.target.classList.contains('popup__close')) {
+    closeModal(modal);
+  }
+  if (evt.target.classList.contains('popup')) {
+    closeModal(modal);
+  }
+}
+
+// Слушатели модальных окон
+modalEditProfile.addEventListener('click', handleCloseClick);
+modalAddPlace.addEventListener('click', handleCloseClick);
+modalImage.addEventListener('click', handleCloseClick);
+
 // Слушетель кнопки редактирования профиля
 profileEditBtn.addEventListener('click', () => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
-  openModal(modalEditProfile, formEditProfile);
+  openModal(modalEditProfile);
 });
 
 // Слушатель кнопки добавления карточки
@@ -58,17 +87,17 @@ function handleNewPlaceSubmit(evt) {
   newItem.link = `${linkInput.value}`;
   const newCard = createCard(newItem, deleteCard, setLike, openModalImage);
   renderNewCard(newCard, cardContainer);
-  closeModal();
   formNewPlace.reset();
 }
 
 // Слушатель сабмита редактирования профиля
 formEditProfile.addEventListener('submit', (evt) => {
   handleEditProfileSubmit(evt);
-  closeModal();
+  closeModal(modalEditProfile);
 });
 
 // Слушатель сабмита добавления нового места
 formNewPlace.addEventListener('submit', (evt) => {
   handleNewPlaceSubmit(evt);
+  closeModal(modalAddPlace);
 });
