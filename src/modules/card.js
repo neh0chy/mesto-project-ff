@@ -2,9 +2,7 @@ import { cardTemplate } from './constants';
 
 // Функция создания карточки
 export function createCard(card, deleteCallBack, likeCallBack, imageCallBack) {
-  const cardElement = cardTemplate
-    .querySelector('.places__item')
-    .cloneNode(true);
+  const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const cardLink = cardElement.querySelector('.card__image');
   const cardImage = cardElement.querySelector('.card__image');
@@ -15,17 +13,15 @@ export function createCard(card, deleteCallBack, likeCallBack, imageCallBack) {
   cardImage.alt = card.name;
   cardTitle.textContent = card.name;
 
-  cardImage.addEventListener('click', () =>
-    imageCallBack(cardImage, cardTitle)
-  );
+  cardImage.addEventListener('click', () => imageCallBack(cardImage, cardTitle));
   cardLike.addEventListener('click', likeCallBack);
   deleteButton.addEventListener('click', deleteCallBack);
   return cardElement;
 }
 
-// Функция добавления карточки
-export function renderCard(card, container) {
-  container.append(card);
+// Функция удаления карточки
+export function deleteCard(evt) {
+  evt.target.closest('.card').remove();
 }
 
 // Функция обработки лайка

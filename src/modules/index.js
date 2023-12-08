@@ -14,8 +14,8 @@ import {
 } from './constants';
 import { modalImage, modalImageTitle, modalImageImage } from './constants';
 import { initialCards } from './cards';
-import { createCard, renderCard, setLike } from './card';
-import { openModal, closeModal } from './modal';
+import { createCard, deleteCard, setLike } from './card';
+import { openModal, handleCloseClick, closeModal } from './modal';
 
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
@@ -26,14 +26,14 @@ initialCards.forEach((card) => {
   renderCard(newCard, cardContainer);
 });
 
+// Функция добавления карточки
+export function renderCard(card, container) {
+  container.append(card);
+}
+
 // Функция добавления новой карточки пользователем
 function renderNewCard(card, container) {
   container.prepend(card);
-}
-
-// Функция удаления карточки
-function deleteCard(evt) {
-  evt.target.closest('.card').remove();
 }
 
 // Функция открытия изображения
@@ -42,17 +42,6 @@ export function openModalImage(image, title) {
   modalImageImage.src = image.src;
   modalImageImage.alt = image.alt;
   openModal(modalImage);
-}
-
-// Обработчик закрытия по крестику и оверлею
-function handleCloseClick(evt) {
-  const modal = evt.target.closest('.popup');
-  if (evt.target.classList.contains('popup__close')) {
-    closeModal(modal);
-  }
-  if (evt.target.classList.contains('popup')) {
-    closeModal(modal);
-  }
 }
 
 // Слушатели модальных окон
