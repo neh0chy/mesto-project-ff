@@ -10,12 +10,14 @@ import {
   nameInput,
   jobInput,
   titleInput,
-  linkInput
+  linkInput,
+  validationConfig
 } from './constants';
 import { modalImage, modalImageTitle, modalImageImage } from './constants';
 import { initialCards } from './cards';
 import { createCard, deleteCard, setLike } from './card';
 import { openModal, handleCloseClick, closeModal } from './modal';
+import { enableValidation } from './validation';
 
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
@@ -90,3 +92,7 @@ formNewPlace.addEventListener('submit', (evt) => {
   handleNewPlaceSubmit(evt);
   closeModal(modalAddPlace);
 });
+
+enableValidation(validationConfig);
+
+// clearValidation(profileForm, validationConfig);

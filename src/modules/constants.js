@@ -28,7 +28,7 @@ export const formNewPlace = document.forms['new-place'];
 export const titleInput = formNewPlace['place-name'];
 export const linkInput = formNewPlace.link;
 
-// Конфиг валидации
+// Настройки валидации
 export const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
