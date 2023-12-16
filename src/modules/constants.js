@@ -27,3 +27,13 @@ export const jobInput = formEditProfile.description;
 export const formNewPlace = document.forms['new-place'];
 export const titleInput = formNewPlace['place-name'];
 export const linkInput = formNewPlace.link;
+
+// Конфиг валидации
+export const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
