@@ -60,6 +60,17 @@ const toggleButtonState = (inputList, buttonElement, settings) => {
   }
 };
 
+//
+export function clearValidation(formElement, settings) {
+  const buttonElement = formElement.querySelector(settings.submitButtonSelector);
+  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement, settings);
+  });
+  buttonElement.disabled = false;
+  buttonElement.classList.remove(settings.inactiveButtonClass);
+}
+
 // Добавление обработчиков всем формам (запускает валидацию)
 export const enableValidation = (settings) => {
   const formList = Array.from(document.querySelectorAll(settings.formSelector));

@@ -4,6 +4,6 @@
   font-size: 12px;
   color: red;
   opacity: 0;
-  transform: translateY(-7px);
+  transform: translateY(-9px);
   transition: 0.3s;
 }

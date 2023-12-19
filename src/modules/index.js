@@ -17,7 +17,7 @@ import { modalImage, modalImageTitle, modalImageImage } from './constants';
 import { initialCards } from './cards';
 import { createCard, deleteCard, setLike } from './card';
 import { openModal, handleCloseClick, closeModal } from './modal';
-import { enableValidation } from './validation';
+import { enableValidation, clearValidation } from './validation';
 
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
@@ -53,6 +53,7 @@ modalImage.addEventListener('click', handleCloseClick);
 
 // Слушетель кнопки редактирования профиля
 profileEditBtn.addEventListener('click', () => {
+  clearValidation(modalEditProfile, validationConfig);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
   openModal(modalEditProfile);
@@ -78,6 +79,7 @@ function handleNewPlaceSubmit(evt) {
   newItem.link = `${linkInput.value}`;
   const newCard = createCard(newItem, deleteCard, setLike, openModalImage);
   renderNewCard(newCard, cardContainer);
+  clearValidation(modalAddPlace, validationConfig);
   formNewPlace.reset();
 }
 
@@ -94,5 +96,3 @@ formNewPlace.addEventListener('submit', (evt) => {
 });
 
 enableValidation(validationConfig);
-
-// clearValidation(profileForm, validationConfig);
