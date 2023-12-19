@@ -53,9 +53,9 @@ modalImage.addEventListener('click', handleCloseClick);
 
 // Слушетель кнопки редактирования профиля
 profileEditBtn.addEventListener('click', () => {
-  clearValidation(modalEditProfile, validationConfig);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
+  clearValidation(modalEditProfile, validationConfig);
   openModal(modalEditProfile);
 });
 
