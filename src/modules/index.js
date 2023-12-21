@@ -24,35 +24,22 @@ const profileDescription = document.querySelector('.profile__description');
 
 // Вывести карточки на страницу
 const promises = [getInitialCards(), getUserInfo()];
-Promise.all(promises).then(([cards, user]) => {
-  console.log(user);
-  cards.forEach((card) => {
-    const newCard = createCard(
-      card,
-      deleteCard,
-      setLike,
-      openModalImage,
-      card._id,
-      card.owner,
-      card.likes
-    );
-    renderCard(newCard, cardContainer);
-  });
-});
-
-// Вывести карточки на страницу
-// getInitialCards().then((initialCards) => {
-//   initialCards.forEach((card) => {
-//     const newCard = createCard(card, deleteCard, setLike, openModalImage);
-//     renderCard(newCard, cardContainer);
-//   });
-// });
+Promise.all(promises)
+  .then(([cards, user]) => {
+    cards.forEach((card) => {
+      const newCard = createCard(card, deleteCard, openModalImage, user);
+      renderCard(newCard, cardContainer);
+    });
+  })
+  .catch((err) => console.log(err));
 
 // Загрузка данных о юзере в разметку
-getUserInfo().then((res) => {
-  profileTitle.textContent = res.name;
-  profileDescription.textContent = res.about;
-});
+getUserInfo()
+  .then((res) => {
+    profileTitle.textContent = res.name;
+    profileDescription.textContent = res.about;
+  })
+  .catch((err) => console.log(err));
 
 // Функция добавления карточки
 export function renderCard(card, container) {
@@ -93,26 +80,30 @@ placeAddBtn.addEventListener('click', () => {
 // Функция обработки сабмита редактирования профиля
 function handleEditProfileSubmit(evt) {
   evt.preventDefault();
-  profileTitle.textContent = nameInput.value;
-  profileDescription.textContent = jobInput.value;
-  patchUserInfo(nameInput.value, jobInput.value).then((res) => {
-    console.log(res);
-  });
+  patchUserInfo(nameInput.value, jobInput.value)
+    .then(() => {
+      profileTitle.textContent = nameInput.value;
+      profileDescription.textContent = jobInput.value;
+    })
+    .catch((err) => console.log(err));
 }
 
 // Функция обработки сабмита добавления нового места
 function handleNewPlaceSubmit(evt) {
   evt.preventDefault();
-  postNewCard(`${titleInput.value}`, `${linkInput.value}`).then((res) => {
-    console.log(res);
-  });
-  const newItem = {};
-  newItem.name = `${titleInput.value}`;
-  newItem.link = `${linkInput.value}`;
-  const newCard = createCard(newItem, deleteCard, setLike, openModalImage);
-  renderNewCard(newCard, cardContainer);
-  clearValidation(modalAddPlace, validationConfig);
-  formNewPlace.reset();
+  postNewCard(`${titleInput.value}`, `${linkInput.value}`)
+    .then(() => {
+      const newItem = {};
+      newItem.name = `${titleInput.value}`;
+      newItem.link = `${linkInput.value}`;
+      newItem.likes = [];
+      newItem.owner = '';
+      const newCard = createCard(newItem, deleteCard, openModalImage);
+      renderNewCard(newCard, cardContainer);
+      clearValidation(modalAddPlace, validationConfig);
+      formNewPlace.reset();
+    })
+    .catch((err) => console.log(err));
 }
 
 // Слушатель сабмита редактирования профиля

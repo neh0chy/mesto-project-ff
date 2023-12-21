@@ -48,3 +48,24 @@ export function postNewCard(name, link) {
     })
   }).then(checkResponse);
 }
+
+export function deleteMyCard(card) {
+  return fetch(`${config.baseUrl}/cards/${card.id}`, {
+    method: 'DELETE',
+    headers: config.headers
+  }).then(checkResponse);
+}
+
+export function putLike(card) {
+  return fetch(`${config.baseUrl}/cards/likes/${card.id}`, {
+    method: 'PUT',
+    headers: config.headers
+  }).then(checkResponse);
+}
+
+export function deleteLike(card) {
+  return fetch(`${config.baseUrl}/cards/likes/${card.id}`, {
+    method: 'DELETE',
+    headers: config.headers
+  }).then(checkResponse);
+}
