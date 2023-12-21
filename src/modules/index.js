@@ -4,11 +4,13 @@ import {
   modalEditProfile,
   modalAddPlace,
   modalAvatar,
+  modalQuestion,
   profileEditBtn,
   placeAddBtn,
   formEditProfile,
   formNewPlace,
   formAvatarChange,
+  formQuestion,
   nameInput,
   jobInput,
   titleInput,
@@ -27,7 +29,8 @@ import {
   getUserInfo,
   patchUserInfo,
   postNewCard,
-  patchAvatar
+  patchAvatar,
+  deleteMyCard
 } from './api';
 import { profileTitle, profileDescription } from './constants';
 let currentUser = '';
@@ -41,7 +44,13 @@ Promise.all(promises)
     profileTitle.textContent = user.name;
     profileDescription.textContent = user.about;
     cards.forEach((card) => {
-      const newCard = createCard(card, deleteCard, setLike, openModalImage, user);
+      const newCard = createCard(
+        card,
+        handleQuestionModal,
+        setLike,
+        openModalImage,
+        user
+      );
       renderCard(newCard, cardContainer);
     });
   })
@@ -70,6 +79,7 @@ modalEditProfile.addEventListener('click', handleCloseClick);
 modalAddPlace.addEventListener('click', handleCloseClick);
 modalImage.addEventListener('click', handleCloseClick);
 modalAvatar.addEventListener('click', handleCloseClick);
+modalQuestion.addEventListener('click', handleCloseClick);
 
 // Слушетель кнопки редактирования профиля
 profileEditBtn.addEventListener('click', () => {
@@ -117,7 +127,7 @@ function handleNewPlaceSubmit(evt) {
       newItem.owner = currentUser;
       const newCard = createCard(
         newItem,
-        deleteCard,
+        handleQuestionModal,
         setLike,
         openModalImage,
         currentUser
@@ -139,7 +149,7 @@ function handleChangeAvatar(evt) {
   patchAvatar(avatarInput.value)
     .then(() => {
       avatarImg.setAttribute('style', `background-image: url(${avatarInput.value})`);
-      // formAvatarChange.reset();
+      formAvatarChange.reset();
     })
     .catch((err) => console.log(err))
     .finally(() => {
@@ -164,5 +174,28 @@ formAvatarChange.addEventListener('submit', (evt) => {
   handleChangeAvatar(evt);
   closeModal(modalAvatar);
 });
+
+// Функция открытия модалки удаления карточки
+export function handleQuestionModal(evt) {
+  handleQuestionModalEvent(evt);
+  openModal(modalQuestion);
+}
+
+// Функция обработки сабмита для удаления карточки
+export function handleQuestionModalEvent(card) {
+  formQuestion.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    formQuestion.querySelector('.button').textContent = 'Удаление...';
+    deleteMyCard(card.target.parentElement)
+      .then(() => {
+        closeModal(modalQuestion);
+        card.target.closest('.card').remove();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        formQuestion.querySelector('.button').textContent = 'Да';
+      });
+  });
+}
 
 enableValidation(validationConfig);

@@ -5,6 +5,7 @@
 @import url('./__title/profile__title.css');
 @import url('./__image/profile__image.css');
 @import url('./_type/_edit-avatar/popup_type_edit-avatar.css');
+@import url('./_type/_question/popup_type_question.css');
 
 .profile {
   font-family: 'Inter', Arial, sans-serif;

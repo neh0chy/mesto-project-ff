@@ -23,6 +23,10 @@ export const avatarImg = document.querySelector('.profile__image');
 export const formAvatarChange = document.forms['edit-avatar'];
 export const avatarInput = formAvatarChange.link;
 
+// Элементы модалки подтверждения
+export const modalQuestion = document.querySelector('.popup_type_question');
+export const formQuestion = document.forms['question'];
+
 // Кнопки
 export const profileEditBtn = document.querySelector('.profile__edit-button');
 export const placeAddBtn = document.querySelector('.profile__add-button');

@@ -1,5 +1,5 @@
 import { cardTemplate } from './constants';
-import { deleteMyCard, putLike, deleteLike } from './api';
+import { putLike, deleteLike } from './api';
 
 // Функция создания карточки
 export function createCard(card, deleteCallBack, likeCallBack, imageCallBack, user) {
@@ -22,7 +22,7 @@ export function createCard(card, deleteCallBack, likeCallBack, imageCallBack, us
   cardLikesNumber.textContent = card.likes.length ? card.likes.length : 0;
 
   if (card.owner._id !== user._id) {
-    deleteButton.classList.add('card__delete-button_disabled');
+    deleteButton.remove();
   }
 
   card.likes.forEach((item) => {
@@ -32,15 +32,6 @@ export function createCard(card, deleteCallBack, likeCallBack, imageCallBack, us
   });
 
   return cardElement;
-}
-
-// Функция удаления карточки
-export function deleteCard(evt) {
-  deleteMyCard(evt.target.parentElement)
-    .then(() => {
-      evt.target.closest('.card').remove();
-    })
-    .catch((err) => console.log(err));
 }
 
 // Функция обработки лайка
