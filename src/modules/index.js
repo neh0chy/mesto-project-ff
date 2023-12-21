@@ -8,19 +8,27 @@ import {
   placeAddBtn,
   formEditProfile,
   formNewPlace,
+  formAvatarChange,
   nameInput,
   jobInput,
   titleInput,
   linkInput,
+  avatarInput,
   validationConfig,
   avatarEditBtn,
-  userAvatar
+  avatarImg
 } from './constants';
 import { modalImage, modalImageTitle, modalImageImage } from './constants';
 import { createCard, deleteCard, setLike } from './card';
 import { openModal, handleCloseClick, closeModal } from './modal';
 import { enableValidation, clearValidation } from './validation';
-import { getInitialCards, getUserInfo, patchUserInfo, postNewCard } from './api';
+import {
+  getInitialCards,
+  getUserInfo,
+  patchUserInfo,
+  postNewCard,
+  patchAvatar
+} from './api';
 import { profileTitle, profileDescription } from './constants';
 let currentUser = '';
 
@@ -28,6 +36,7 @@ let currentUser = '';
 const promises = [getInitialCards(), getUserInfo()];
 Promise.all(promises)
   .then(([cards, user]) => {
+    avatarImg.setAttribute('style', `background-image: url(${user.avatar})`);
     currentUser = user;
     profileTitle.textContent = user.name;
     profileDescription.textContent = user.about;
@@ -60,6 +69,7 @@ export function openModalImage(image, title) {
 modalEditProfile.addEventListener('click', handleCloseClick);
 modalAddPlace.addEventListener('click', handleCloseClick);
 modalImage.addEventListener('click', handleCloseClick);
+modalAvatar.addEventListener('click', handleCloseClick);
 
 // Слушетель кнопки редактирования профиля
 profileEditBtn.addEventListener('click', () => {
@@ -74,7 +84,7 @@ placeAddBtn.addEventListener('click', () => {
   openModal(modalAddPlace);
 });
 
-// Слушатель кнопки добавления карточки
+// Слушатель кнопки смены аватара
 avatarEditBtn.addEventListener('click', () => {
   openModal(modalAvatar);
 });
@@ -82,24 +92,29 @@ avatarEditBtn.addEventListener('click', () => {
 // Функция обработки сабмита редактирования профиля
 function handleEditProfileSubmit(evt) {
   evt.preventDefault();
+  formEditProfile.querySelector('.button').textContent = 'Сохранение...';
   patchUserInfo(nameInput.value, jobInput.value)
     .then(() => {
       profileTitle.textContent = nameInput.value;
       profileDescription.textContent = jobInput.value;
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      formEditProfile.querySelector('.button').textContent = 'Сохранить';
+    });
 }
 
 // Функция обработки сабмита добавления нового места
 function handleNewPlaceSubmit(evt) {
   evt.preventDefault();
-  postNewCard(`${titleInput.value}`, `${linkInput.value}`)
+  formNewPlace.querySelector('.button').textContent = 'Сохранение...';
+  postNewCard(titleInput.value, linkInput.value)
     .then(() => {
       const newItem = {};
       newItem.name = `${titleInput.value}`;
       newItem.link = `${linkInput.value}`;
       newItem.likes = [];
-      newItem.owner = '';
+      newItem.owner = currentUser;
       const newCard = createCard(
         newItem,
         deleteCard,
@@ -111,7 +126,25 @@ function handleNewPlaceSubmit(evt) {
       clearValidation(modalAddPlace, validationConfig);
       formNewPlace.reset();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      formNewPlace.querySelector('.button').textContent = 'Сохранить';
+    });
+}
+
+// Функция обработки сабмита смены аватара
+function handleChangeAvatar(evt) {
+  evt.preventDefault();
+  formAvatarChange.querySelector('.button').textContent = 'Сохранение...';
+  patchAvatar(avatarInput.value)
+    .then(() => {
+      avatarImg.setAttribute('style', `background-image: url(${avatarInput.value})`);
+      // formAvatarChange.reset();
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      formAvatarChange.querySelector('.button').textContent = 'Сохранить';
+    });
 }
 
 // Слушатель сабмита редактирования профиля
@@ -124,6 +157,12 @@ formEditProfile.addEventListener('submit', (evt) => {
 formNewPlace.addEventListener('submit', (evt) => {
   handleNewPlaceSubmit(evt);
   closeModal(modalAddPlace);
+});
+
+// Слушатель сабмита смены аватара
+formAvatarChange.addEventListener('submit', (evt) => {
+  handleChangeAvatar(evt);
+  closeModal(modalAvatar);
 });
 
 enableValidation(validationConfig);

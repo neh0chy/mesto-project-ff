@@ -4,9 +4,7 @@ export const cardContainer = document.querySelector('.places__list');
 
 // Шаблоны модалок профиля и добавления карточки и их кнопки закрытия
 export const modalEditProfile = document.querySelector('.popup_type_edit');
-export const modalEditProfileClose = modalEditProfile.querySelector('.popup__close');
 export const modalAddPlace = document.querySelector('.popup_type_new-card');
-export const modalAddPlaceClose = modalAddPlace.querySelector('.popup__close');
 
 // Шаблон изображения с полями и кнопка закрытия
 export const modalImage = document.querySelector('.popup_type_image');
@@ -19,9 +17,11 @@ export const profileTitle = document.querySelector('.profile__title');
 export const profileDescription = document.querySelector('.profile__description');
 
 // Элементы для смены аватара
-export const avatarEditBtn = document.querySelector('.profile__image-overlay');
-export const userAvatar = document.querySelector('.profile__image');
 export const modalAvatar = document.querySelector('.popup_type_edit-avatar');
+export const avatarEditBtn = document.querySelector('.profile__image-overlay');
+export const avatarImg = document.querySelector('.profile__image');
+export const formAvatarChange = document.forms['edit-avatar'];
+export const avatarInput = formAvatarChange.link;
 
 // Кнопки
 export const profileEditBtn = document.querySelector('.profile__edit-button');
