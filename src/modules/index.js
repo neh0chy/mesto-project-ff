@@ -14,18 +14,44 @@ import {
   validationConfig
 } from './constants';
 import { modalImage, modalImageTitle, modalImageImage } from './constants';
-import { initialCards } from './cards';
 import { createCard, deleteCard, setLike } from './card';
 import { openModal, handleCloseClick, closeModal } from './modal';
 import { enableValidation, clearValidation } from './validation';
+import { getInitialCards, getUserInfo, patchUserInfo, postNewCard } from './api';
 
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 
 // Вывести карточки на страницу
-initialCards.forEach((card) => {
-  const newCard = createCard(card, deleteCard, setLike, openModalImage);
-  renderCard(newCard, cardContainer);
+const promises = [getInitialCards(), getUserInfo()];
+Promise.all(promises).then(([cards, user]) => {
+  console.log(user);
+  cards.forEach((card) => {
+    const newCard = createCard(
+      card,
+      deleteCard,
+      setLike,
+      openModalImage,
+      card._id,
+      card.owner,
+      card.likes
+    );
+    renderCard(newCard, cardContainer);
+  });
+});
+
+// Вывести карточки на страницу
+// getInitialCards().then((initialCards) => {
+//   initialCards.forEach((card) => {
+//     const newCard = createCard(card, deleteCard, setLike, openModalImage);
+//     renderCard(newCard, cardContainer);
+//   });
+// });
+
+// Загрузка данных о юзере в разметку
+getUserInfo().then((res) => {
+  profileTitle.textContent = res.name;
+  profileDescription.textContent = res.about;
 });
 
 // Функция добавления карточки
@@ -69,11 +95,17 @@ function handleEditProfileSubmit(evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
+  patchUserInfo(nameInput.value, jobInput.value).then((res) => {
+    console.log(res);
+  });
 }
 
 // Функция обработки сабмита добавления нового места
 function handleNewPlaceSubmit(evt) {
   evt.preventDefault();
+  postNewCard(`${titleInput.value}`, `${linkInput.value}`).then((res) => {
+    console.log(res);
+  });
   const newItem = {};
   newItem.name = `${titleInput.value}`;
   newItem.link = `${linkInput.value}`;

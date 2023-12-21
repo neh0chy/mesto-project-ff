@@ -67,8 +67,8 @@ export function clearValidation(formElement, settings) {
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement, settings);
   });
-  buttonElement.disabled = false;
-  buttonElement.classList.remove(settings.inactiveButtonClass);
+  buttonElement.disabled = true;
+  buttonElement.classList.add(settings.inactiveButtonClass);
 }
 
 // Добавление обработчиков всем формам (запускает валидацию)
