@@ -9,3 +9,6 @@
 - JavaScript
 - Webpack
 - NPM
+
+[Cсылка на проект](https://github.com/neh0chy/mesto-project-ff)
+[Проект на Github Pages](https://neh0chy.github.io/mesto)
