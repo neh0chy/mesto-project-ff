@@ -3,6 +3,7 @@ import {
   cardContainer,
   modalEditProfile,
   modalAddPlace,
+  modalAvatar,
   profileEditBtn,
   placeAddBtn,
   formEditProfile,
@@ -11,33 +12,29 @@ import {
   jobInput,
   titleInput,
   linkInput,
-  validationConfig
+  validationConfig,
+  avatarEditBtn,
+  userAvatar
 } from './constants';
 import { modalImage, modalImageTitle, modalImageImage } from './constants';
 import { createCard, deleteCard, setLike } from './card';
 import { openModal, handleCloseClick, closeModal } from './modal';
 import { enableValidation, clearValidation } from './validation';
 import { getInitialCards, getUserInfo, patchUserInfo, postNewCard } from './api';
-
-const profileTitle = document.querySelector('.profile__title');
-const profileDescription = document.querySelector('.profile__description');
+import { profileTitle, profileDescription } from './constants';
+let currentUser = '';
 
 // Вывести карточки на страницу
 const promises = [getInitialCards(), getUserInfo()];
 Promise.all(promises)
   .then(([cards, user]) => {
+    currentUser = user;
+    profileTitle.textContent = user.name;
+    profileDescription.textContent = user.about;
     cards.forEach((card) => {
-      const newCard = createCard(card, deleteCard, openModalImage, user);
+      const newCard = createCard(card, deleteCard, setLike, openModalImage, user);
       renderCard(newCard, cardContainer);
     });
-  })
-  .catch((err) => console.log(err));
-
-// Загрузка данных о юзере в разметку
-getUserInfo()
-  .then((res) => {
-    profileTitle.textContent = res.name;
-    profileDescription.textContent = res.about;
   })
   .catch((err) => console.log(err));
 
@@ -77,6 +74,11 @@ placeAddBtn.addEventListener('click', () => {
   openModal(modalAddPlace);
 });
 
+// Слушатель кнопки добавления карточки
+avatarEditBtn.addEventListener('click', () => {
+  openModal(modalAvatar);
+});
+
 // Функция обработки сабмита редактирования профиля
 function handleEditProfileSubmit(evt) {
   evt.preventDefault();
@@ -98,7 +100,13 @@ function handleNewPlaceSubmit(evt) {
       newItem.link = `${linkInput.value}`;
       newItem.likes = [];
       newItem.owner = '';
-      const newCard = createCard(newItem, deleteCard, openModalImage);
+      const newCard = createCard(
+        newItem,
+        deleteCard,
+        setLike,
+        openModalImage,
+        currentUser
+      );
       renderNewCard(newCard, cardContainer);
       clearValidation(modalAddPlace, validationConfig);
       formNewPlace.reset();

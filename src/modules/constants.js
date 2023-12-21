@@ -14,6 +14,15 @@ export const modalImageTitle = modalImage.querySelector('.popup__caption');
 export const modalImageImage = modalImage.querySelector('.popup__image');
 export const modalImageClose = modalImage.querySelector('.popup__close');
 
+// Поля профиля
+export const profileTitle = document.querySelector('.profile__title');
+export const profileDescription = document.querySelector('.profile__description');
+
+// Элементы для смены аватара
+export const avatarEditBtn = document.querySelector('.profile__image-overlay');
+export const userAvatar = document.querySelector('.profile__image');
+export const modalAvatar = document.querySelector('.popup_type_edit-avatar');
+
 // Кнопки
 export const profileEditBtn = document.querySelector('.profile__edit-button');
 export const placeAddBtn = document.querySelector('.profile__add-button');

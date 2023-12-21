@@ -69,3 +69,13 @@ export function deleteLike(card) {
     headers: config.headers
   }).then(checkResponse);
 }
+
+export function patchAvatar(link) {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: link
+    })
+  }).then(checkResponse);
+}
