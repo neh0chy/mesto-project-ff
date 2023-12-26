@@ -35,19 +35,19 @@ export function createCard(card, deleteCallBack, likeCallBack, imageCallBack, us
 }
 
 // Функция обработки лайка
-export function setLike(evt, likes) {
+export function setLike(evt, likesCounter) {
   if (evt.target.classList.contains('card__like-button_is-active')) {
     deleteLike(evt.target.parentElement.closest('.card'))
       .then((res) => {
         evt.target.classList.toggle('card__like-button_is-active');
-        likes.textContent = res.likes.length;
+        likesCounter.textContent = res.likes.length;
       })
       .catch((err) => console.log(err));
   } else {
     putLike(evt.target.parentElement.closest('.card'))
       .then((res) => {
         evt.target.classList.toggle('card__like-button_is-active');
-        likes.textContent = res.likes.length;
+        likesCounter.textContent = res.likes.length;
       })
       .catch((err) => console.log(err));
   }

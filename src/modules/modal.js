@@ -10,17 +10,6 @@ export function closeModal(modal) {
   document.removeEventListener('keydown', closeModalEsc);
 }
 
-// Обработчик закрытия по крестику и оверлею
-export function handleCloseClick(evt) {
-  const modal = evt.target.closest('.popup');
-  if (evt.target.classList.contains('popup__close')) {
-    closeModal(modal);
-  }
-  if (evt.target.classList.contains('popup')) {
-    closeModal(modal);
-  }
-}
-
 // Обработчук закрытия модального окна по Esc
 function closeModalEsc(evt) {
   if (evt.key === 'Escape') {

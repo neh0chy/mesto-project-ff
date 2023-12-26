@@ -21,8 +21,8 @@ import {
   avatarImg
 } from './constants';
 import { modalImage, modalImageTitle, modalImageImage } from './constants';
-import { createCard, deleteCard, setLike } from './card';
-import { openModal, handleCloseClick, closeModal } from './modal';
+import { createCard, setLike } from './card';
+import { openModal, closeModal } from './modal';
 import { enableValidation, clearValidation } from './validation';
 import {
   getInitialCards,
@@ -75,12 +75,18 @@ export function openModalImage(image, title) {
   openModal(modalImage);
 }
 
-// Слушатели модальных окон
-modalEditProfile.addEventListener('click', handleCloseClick);
-modalAddPlace.addEventListener('click', handleCloseClick);
-modalImage.addEventListener('click', handleCloseClick);
-modalAvatar.addEventListener('click', handleCloseClick);
-modalQuestion.addEventListener('click', handleCloseClick);
+// Слушатели закрытия по крестику и оверлею
+const allModals = document.querySelectorAll('.popup');
+allModals.forEach((modal) => {
+  modal.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains('popup__close')) {
+      closeModal(modal);
+    }
+    if (evt.target.classList.contains('popup')) {
+      closeModal(modal);
+    }
+  });
+});
 
 // Слушетель кнопки редактирования профиля
 profileEditBtn.addEventListener('click', () => {
