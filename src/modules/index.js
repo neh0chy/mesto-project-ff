@@ -102,22 +102,23 @@ avatarEditBtn.addEventListener('click', () => {
 // Функция обработки сабмита редактирования профиля
 function handleEditProfileSubmit(evt) {
   evt.preventDefault();
-  formEditProfile.querySelector('.button').textContent = 'Сохранение...';
+  evt.submitter.textContent = 'Сохранение...';
   patchUserInfo(nameInput.value, jobInput.value)
     .then(() => {
       profileTitle.textContent = nameInput.value;
       profileDescription.textContent = jobInput.value;
+      closeModal(modalEditProfile);
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      formEditProfile.querySelector('.button').textContent = 'Сохранить';
+      evt.submitter.textContent = 'Сохранить';
     });
 }
 
 // Функция обработки сабмита добавления нового места
 function handleNewPlaceSubmit(evt) {
   evt.preventDefault();
-  formNewPlace.querySelector('.button').textContent = 'Сохранение...';
+  evt.submitter.textContent = 'Сохранение...';
   postNewCard(titleInput.value, linkInput.value)
     .then(() => {
       const newItem = {};
@@ -133,47 +134,40 @@ function handleNewPlaceSubmit(evt) {
         currentUser
       );
       renderNewCard(newCard, cardContainer);
+      closeModal(modalAddPlace);
       clearValidation(modalAddPlace, validationConfig);
       formNewPlace.reset();
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      formNewPlace.querySelector('.button').textContent = 'Сохранить';
+      evt.submitter.textContent = 'Сохранить';
     });
 }
 
 // Функция обработки сабмита смены аватара
 function handleChangeAvatar(evt) {
   evt.preventDefault();
-  formAvatarChange.querySelector('.button').textContent = 'Сохранение...';
+  evt.submitter.textContent = 'Сохранение...';
   patchAvatar(avatarInput.value)
     .then(() => {
       avatarImg.setAttribute('style', `background-image: url(${avatarInput.value})`);
+      closeModal(modalAvatar);
       formAvatarChange.reset();
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      formAvatarChange.querySelector('.button').textContent = 'Сохранить';
+      evt.submitter.textContent = 'Сохранить';
     });
 }
 
 // Слушатель сабмита редактирования профиля
-formEditProfile.addEventListener('submit', (evt) => {
-  handleEditProfileSubmit(evt);
-  closeModal(modalEditProfile);
-});
+formEditProfile.addEventListener('submit', handleEditProfileSubmit);
 
 // Слушатель сабмита добавления нового места
-formNewPlace.addEventListener('submit', (evt) => {
-  handleNewPlaceSubmit(evt);
-  closeModal(modalAddPlace);
-});
+formNewPlace.addEventListener('submit', handleNewPlaceSubmit);
 
 // Слушатель сабмита смены аватара
-formAvatarChange.addEventListener('submit', (evt) => {
-  handleChangeAvatar(evt);
-  closeModal(modalAvatar);
-});
+formAvatarChange.addEventListener('submit', handleChangeAvatar);
 
 // Функция открытия модалки удаления карточки
 export function handleQuestionModal(evt) {
@@ -185,7 +179,7 @@ export function handleQuestionModal(evt) {
 export function handleQuestionModalEvent(card) {
   formQuestion.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    formQuestion.querySelector('.button').textContent = 'Удаление...';
+    evt.submitter.textContent = 'Удаление...';
     deleteMyCard(card.target.parentElement)
       .then(() => {
         closeModal(modalQuestion);
@@ -193,7 +187,7 @@ export function handleQuestionModalEvent(card) {
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        formQuestion.querySelector('.button').textContent = 'Да';
+        evt.submitter.textContent = 'Да';
       });
   });
 }
