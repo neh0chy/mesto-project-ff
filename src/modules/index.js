@@ -34,6 +34,7 @@ import {
 } from './api';
 import { profileTitle, profileDescription } from './constants';
 let currentUser = '';
+let cardToDelete = null;
 
 // Вывести карточки на страницу
 const promises = [getInitialCards(), getUserInfo()];
@@ -169,27 +170,25 @@ formNewPlace.addEventListener('submit', handleNewPlaceSubmit);
 // Слушатель сабмита смены аватара
 formAvatarChange.addEventListener('submit', handleChangeAvatar);
 
-// Функция открытия модалки удаления карточки
-export function handleQuestionModal(evt) {
-  handleQuestionModalEvent(evt);
-  openModal(modalQuestion);
-}
+// Слушатель сабмита подтверждения удаления карточки
+formQuestion.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  evt.submitter.textContent = 'Удаление...';
+  deleteMyCard(cardToDelete.parentElement)
+    .then(() => {
+      closeModal(modalQuestion);
+      cardToDelete.closest('.card').remove();
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      evt.submitter.textContent = 'Да';
+    });
+});
 
-// Функция обработки сабмита для удаления карточки
-export function handleQuestionModalEvent(card) {
-  formQuestion.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    evt.submitter.textContent = 'Удаление...';
-    deleteMyCard(card.target.parentElement)
-      .then(() => {
-        closeModal(modalQuestion);
-        card.target.closest('.card').remove();
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        evt.submitter.textContent = 'Да';
-      });
-  });
+// Функция обработки модального окна удаления карточки
+export function handleQuestionModal(evt) {
+  cardToDelete = evt.target;
+  openModal(modalQuestion);
 }
 
 enableValidation(validationConfig);
